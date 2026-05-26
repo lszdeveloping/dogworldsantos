@@ -119,7 +119,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
   };
 
   const handleWhatsApp = (dog: DogType) => {
-    const message = `Olá, ${dog.tutorName}! Tudo bem? Aqui é do Hotel do Cão. Gostaríamos de falar sobre o ${dog.name}.`;
+    const message = `Olá, ${dog.tutorName}! Tudo bem? Aqui é do DogWorld. Gostaríamos de falar sobre o ${dog.name}.`;
     const phone = dog.tutorPhone.replace(/\D/g, "");
     window.open(
       `https://wa.me/55${phone}?text=${encodeURIComponent(message)}`,

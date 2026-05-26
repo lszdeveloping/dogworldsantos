@@ -7,13 +7,13 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
 export const metadata: Metadata = {
-  title: 'Hotel do Cão - Sistema de Gestão',
+  title: 'DogWorld - Sistema de Gestão',
   description: 'Sistema inteligente para gestão de hotel de cães - Creche, hospedagem, banho e tosa',
   generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/dogworld.jpg',
         media: '(prefers-color-scheme: light)',
       },
       {

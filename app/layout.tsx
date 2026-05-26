@@ -9,23 +9,8 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 export const metadata: Metadata = {
   title: 'DogWorld - Sistema de Gestão',
   description: 'Sistema inteligente para gestão de hotel de cães - Creche, hospedagem, banho e tosa',
-  generator: 'v0.app',
   icons: {
-    icon: [
-      {
-        url: '/dogworld.jpg',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: '/dogworld.jpg',
   },
 }
 

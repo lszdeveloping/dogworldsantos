@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
-import { useLocalStorage } from "@/hooks/use-local-storage";
+import { useSupabaseCollection } from "@/hooks/use-supabase-collection";
 import { LoginPage } from "@/components/auth/login-page";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
@@ -33,18 +33,54 @@ import type {
 function AppContent() {
   const { user, loading } = useAuth();
   const [activeSection, setActiveSection] = useState("dashboard");
+  const dataEnabled = Boolean(user);
 
-  const [dogs, setDogs] = useLocalStorage<Dog[]>("dogworld_dogs", initialDogs);
-  const [presences, setPresences] = useLocalStorage<Presence[]>("dogworld_presences", initialPresences);
-  const [payments, setPayments] = useLocalStorage<Payment[]>("dogworld_payments", initialPayments);
-  const [groomingAppointments, setGroomingAppointments] = useLocalStorage<GroomingAppointment[]>(
-    "dogworld_grooming",
-    initialGroomingAppointments
+  const [dogs, setDogs, dogsState] = useSupabaseCollection<Dog>(
+    "dogs",
+    initialDogs,
+    dataEnabled
   );
-  const [servicePrices, setServicePrices] = useLocalStorage<ServicePrice[]>("dogworld_services", initialServicePrices);
-  const [alerts, setAlerts] = useLocalStorage<Alert[]>("dogworld_alerts", initialAlerts);
+  const [presences, setPresences, presencesState] = useSupabaseCollection<Presence>(
+    "presences",
+    initialPresences,
+    dataEnabled
+  );
+  const [payments, setPayments, paymentsState] = useSupabaseCollection<Payment>(
+    "payments",
+    initialPayments,
+    dataEnabled
+  );
+  const [
+    groomingAppointments,
+    setGroomingAppointments,
+    groomingAppointmentsState,
+  ] = useSupabaseCollection<GroomingAppointment>(
+    "groomingAppointments",
+    initialGroomingAppointments,
+    dataEnabled
+  );
+  const [servicePrices, setServicePrices, servicePricesState] = useSupabaseCollection<ServicePrice>(
+    "servicePrices",
+    initialServicePrices,
+    dataEnabled
+  );
+  const [alerts, setAlerts, alertsState] = useSupabaseCollection<Alert>(
+    "alerts",
+    initialAlerts,
+    dataEnabled
+  );
+  const dataStates = [
+    dogsState,
+    presencesState,
+    paymentsState,
+    groomingAppointmentsState,
+    servicePricesState,
+    alertsState,
+  ];
+  const dataLoading = dataStates.some((state) => state.loading);
+  const dataError = dataStates.find((state) => state.error)?.error;
 
-  if (loading) {
+  if (loading || (user && dataLoading)) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
@@ -53,6 +89,25 @@ function AppContent() {
   }
 
   if (!user) return <LoginPage />;
+
+  if (dataError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background p-6">
+        <div className="max-w-md rounded-lg border border-destructive/30 bg-card p-6 text-center shadow-sm">
+          <h1 className="text-lg font-semibold text-foreground">
+            Nao foi possivel carregar os dados
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Confira se o arquivo supabase/schema.sql ja foi executado no SQL
+            Editor do Supabase.
+          </p>
+          <p className="mt-4 rounded-md bg-muted p-3 text-xs text-muted-foreground">
+            {dataError}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const activeAlertCount = alerts.filter((a) => !a.resolved).length;
 

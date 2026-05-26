@@ -10,14 +10,11 @@ import {
 } from "react";
 import {
   type SessionUser,
-  type User,
-  hashPassword,
-  findUser,
-  saveUser,
-  emailExists,
-  getSession,
-  setSession,
-  clearSession,
+  getCurrentSessionUser,
+  loginWithPassword,
+  onSessionChange,
+  registerWithPassword,
+  signOut,
 } from "@/lib/auth";
 import { REGISTRATION_PASSPHRASE } from "@/lib/config";
 
@@ -41,17 +38,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setUser(getSession());
-    setLoading(false);
+    let mounted = true;
+    let unsubscribe = () => {};
+
+    async function loadSession() {
+      try {
+        const sessionUser = await getCurrentSessionUser();
+        if (mounted) setUser(sessionUser);
+
+        unsubscribe = onSessionChange((nextUser) => {
+          if (mounted) setUser(nextUser);
+        });
+      } catch {
+        if (mounted) setUser(null);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    void loadSession();
+
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
   }, []);
 
   const login = useCallback(async (email: string, password: string): Promise<string | null> => {
-    const found = await findUser(email, password);
-    if (!found) return "Email ou senha incorretos.";
-    const session: SessionUser = { id: found.id, name: found.name, email: found.email };
-    setSession(session);
-    setUser(session);
-    return null;
+    try {
+      const result = await loginWithPassword(email, password);
+      if (result.error) return result.error;
+      setUser(result.user);
+      return null;
+    } catch {
+      return "Nao foi possivel conectar ao Supabase.";
+    }
   }, []);
 
   const register = useCallback(async (
@@ -61,24 +82,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     passphrase: string
   ): Promise<string | null> => {
     if (passphrase !== REGISTRATION_PASSPHRASE) return "Senha de cadastro incorreta.";
-    if (emailExists(email)) return "Este email já está cadastrado.";
-    const passwordHash = await hashPassword(password);
-    const newUser: User = {
-      id: Date.now().toString(),
-      name: name.trim(),
-      email: email.toLowerCase().trim(),
-      passwordHash,
-    };
-    saveUser(newUser);
-    const session: SessionUser = { id: newUser.id, name: newUser.name, email: newUser.email };
-    setSession(session);
-    setUser(session);
-    return null;
+
+    try {
+      const result = await registerWithPassword(name, email, password);
+      if (result.error) return result.error;
+      setUser(result.user);
+      return null;
+    } catch {
+      return "Nao foi possivel conectar ao Supabase.";
+    }
   }, []);
 
   const logout = useCallback(() => {
-    clearSession();
-    setUser(null);
+    void signOut().finally(() => setUser(null));
   }, []);
 
   return (

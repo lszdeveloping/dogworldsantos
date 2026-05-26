@@ -1,0 +1,3 @@
+// Defina NEXT_PUBLIC_REGISTRATION_PASSPHRASE no arquivo .env.local
+export const REGISTRATION_PASSPHRASE =
+  process.env.NEXT_PUBLIC_REGISTRATION_PASSPHRASE ?? "";

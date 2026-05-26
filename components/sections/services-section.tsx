@@ -152,7 +152,7 @@ export function ServicesSection({
   return (
     <div className="flex flex-col gap-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
             <Tag className="size-5 text-primary" />
@@ -173,7 +173,7 @@ export function ServicesSection({
       </div>
 
       {/* Services Grid */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {servicePrices.map((service) => (
           <Card
             key={service.id}
@@ -326,7 +326,7 @@ export function ServicesSection({
 
       {/* Add/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>
               {editingService ? "Editar Serviço" : "Novo Serviço"}
@@ -354,7 +354,7 @@ export function ServicesSection({
                 rows={2}
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium">Categoria</label>
                 <Select

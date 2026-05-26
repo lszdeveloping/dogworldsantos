@@ -141,7 +141,7 @@ export function AlertsSection({ alerts, setAlerts }: AlertsSectionProps) {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
@@ -201,13 +201,13 @@ export function AlertsSection({ alerts, setAlerts }: AlertsSectionProps) {
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
         <div className="flex items-center gap-2">
           <Filter className="size-4 text-muted-foreground" />
           <span className="text-sm font-medium">Filtros:</span>
         </div>
         <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-          <SelectTrigger className="w-40">
+          <SelectTrigger className="w-full sm:w-40">
             <SelectValue placeholder="Prioridade" />
           </SelectTrigger>
           <SelectContent>
@@ -220,7 +220,7 @@ export function AlertsSection({ alerts, setAlerts }: AlertsSectionProps) {
           </SelectContent>
         </Select>
         <Select value={typeFilter} onValueChange={setTypeFilter}>
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-full sm:w-48">
             <SelectValue placeholder="Tipo" />
           </SelectTrigger>
           <SelectContent>

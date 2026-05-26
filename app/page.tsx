@@ -179,8 +179,8 @@ function AppContent() {
     <div className="min-h-screen bg-background">
       <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
       <Header alertCount={activeAlertCount} onNewCheckIn={() => setActiveSection("presence")} />
-      <main className="ml-64 min-h-screen pt-16">
-        <div className="p-6">{renderSection()}</div>
+      <main className="min-h-screen pb-24 pt-20 lg:ml-64 lg:pb-0">
+        <div className="p-4 sm:p-6">{renderSection()}</div>
       </main>
     </div>
   );

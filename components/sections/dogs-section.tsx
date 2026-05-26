@@ -130,7 +130,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
   return (
     <div className="flex flex-col gap-6">
       {/* Page Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
             <Dog className="size-5 text-primary" />
@@ -149,7 +149,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
       </div>
 
       {/* Search */}
-      <div className="relative w-80">
+      <div className="relative w-full sm:w-80">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Buscar por nome, tutor ou raça..."
@@ -283,13 +283,13 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
 
       {/* Add/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>
               {editingDog ? "Editar Cão" : "Novo Cão"}
             </DialogTitle>
           </DialogHeader>
-          <div className="grid grid-cols-2 gap-4 pt-4">
+          <div className="grid grid-cols-1 gap-4 pt-4 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Nome do cão</label>
               <Input
@@ -416,7 +416,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
                 }
               />
             </div>
-            <div className="col-span-2 flex flex-col gap-2">
+            <div className="flex flex-col gap-2 sm:col-span-2">
               <label className="text-sm font-medium">Observações</label>
               <Textarea
                 value={formData.observations}
@@ -427,7 +427,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
                 rows={3}
               />
             </div>
-            <div className="col-span-2 flex items-center justify-between rounded-lg border p-4">
+            <div className="flex flex-col gap-3 rounded-lg border p-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="font-medium">Vacinas em dia</p>
                 <p className="text-sm text-muted-foreground">
@@ -455,7 +455,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
 
       {/* Detail Dialog */}
       <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-        <DialogContent className="max-w-lg">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Detalhes do Cão</DialogTitle>
           </DialogHeader>
@@ -474,7 +474,7 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4 rounded-lg bg-muted/50 p-4">
+              <div className="grid grid-cols-1 gap-4 rounded-lg bg-muted/50 p-4 sm:grid-cols-2">
                 <div>
                   <p className="text-xs text-muted-foreground">Tutor</p>
                   <p className="font-medium">{viewingDog.tutorName}</p>

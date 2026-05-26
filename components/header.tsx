@@ -23,9 +23,9 @@ export function Header({ alertCount, onNewCheckIn }: HeaderProps) {
     .toUpperCase() ?? "?";
 
   return (
-    <header className="fixed left-64 right-0 top-0 z-30 flex h-16 items-center justify-between border-b border-border bg-card px-6">
+    <header className="fixed left-0 right-0 top-0 z-30 flex min-h-16 items-center justify-between gap-3 border-b border-border bg-card px-3 py-2 sm:px-6 lg:left-64">
       {/* Search */}
-      <div className="relative w-96">
+      <div className="relative hidden w-full max-w-96 md:block">
         <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           placeholder="Buscar cães, tutores, serviços..."
@@ -34,10 +34,11 @@ export function Header({ alertCount, onNewCheckIn }: HeaderProps) {
       </div>
 
       {/* Actions */}
-      <div className="flex items-center gap-4">
-        <Button onClick={onNewCheckIn} className="gap-2">
+      <div className="ml-auto flex min-w-0 items-center gap-2 sm:gap-4">
+        <Button onClick={onNewCheckIn} className="gap-2 px-3 sm:px-4">
           <Plus className="size-4" />
-          Novo Check-in
+          <span className="hidden sm:inline">Novo Check-in</span>
+          <span className="sm:hidden">Check-in</span>
         </Button>
 
         {/* Notifications */}
@@ -54,15 +55,15 @@ export function Header({ alertCount, onNewCheckIn }: HeaderProps) {
         </button>
 
         {/* User Profile */}
-        <div className="flex items-center gap-3 rounded-lg px-3 py-2">
+        <div className="flex min-w-0 items-center gap-3 rounded-lg px-1 py-2 sm:px-3">
           <Avatar className="size-9">
             <AvatarFallback className="bg-primary text-primary-foreground">
               {initials}
             </AvatarFallback>
           </Avatar>
-          <div className="text-left">
-            <p className="text-sm font-medium">{user?.name}</p>
-            <p className="text-xs text-muted-foreground">{user?.email}</p>
+          <div className="hidden min-w-0 text-left md:block">
+            <p className="truncate text-sm font-medium">{user?.name}</p>
+            <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
           </div>
         </div>
 

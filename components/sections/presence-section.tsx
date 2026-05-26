@@ -142,12 +142,12 @@ export function PresenceSection({
 
       {/* Date Navigation */}
       <Card>
-        <CardContent className="flex items-center justify-between p-4">
-          <div className="flex items-center gap-2">
+        <CardContent className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center justify-center gap-2">
             <Button variant="outline" size="icon" onClick={goToPreviousDay}>
               <ChevronLeft className="size-4" />
             </Button>
-            <div className="min-w-48 text-center">
+            <div className="min-w-0 text-center sm:min-w-48">
               <p className="text-lg font-semibold">
                 {format(selectedDate, "EEEE", { locale: ptBR })}
               </p>
@@ -344,7 +344,7 @@ export function PresenceSection({
       </Card>
 
       {/* Summary */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center gap-3">

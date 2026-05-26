@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import {
   Home,
@@ -109,7 +109,7 @@ export function DashboardSection({
         <div>
           <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
           <p className="text-sm text-muted-foreground">
-            VisÃ£o geral do seu hotel de cÃ£es
+            Visão geral do seu hotel de cães
           </p>
         </div>
       </div>
@@ -124,12 +124,12 @@ export function DashboardSection({
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">
-                  CÃ£es hospedados
+                  Cães hospedados
                 </p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-bold">{dogsHosted}</span>
                 </div>
-                <p className="text-xs text-muted-foreground">ocupaÃ§Ã£o atual</p>
+                <p className="text-xs text-muted-foreground">ocupação atual</p>
               </div>
             </div>
           </CardContent>
@@ -178,7 +178,7 @@ export function DashboardSection({
                 <DollarSign className="size-6 text-green-600" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Receita do mÃªs</p>
+                <p className="text-sm text-muted-foreground">Receita do mês</p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-bold">
                     R$ {monthlyRevenue.toLocaleString("pt-BR")}
@@ -197,7 +197,7 @@ export function DashboardSection({
         <Card className="xl:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-base font-semibold">
-              OcupaÃ§Ã£o semanal
+              Ocupação semanal
             </CardTitle>
             <select className="rounded-md border border-border bg-background px-3 py-1 text-sm">
               <option>Esta semana</option>
@@ -222,7 +222,7 @@ export function DashboardSection({
                     tickFormatter={(value) => `${value}%`}
                   />
                   <Tooltip
-                    formatter={(value: number) => [`${value}%`, "OcupaÃ§Ã£o"]}
+                    formatter={(value: number) => [`${value}%`, "Ocupação"]}
                     contentStyle={{
                       borderRadius: "8px",
                       border: "1px solid #e5e5e5",
@@ -246,7 +246,7 @@ export function DashboardSection({
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-semibold">
-              PrÃ³ximos serviÃ§os de hoje
+              Próximos serviços de hoje
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
@@ -300,7 +300,7 @@ export function DashboardSection({
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-base font-semibold">
-            Atalhos rÃ¡pidos
+            Atalhos rápidos
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -319,7 +319,7 @@ export function DashboardSection({
               onClick={() => onNavigate("grooming")}
             >
               <Scissors className="size-5 text-primary" />
-              <span className="text-xs">Agendar ServiÃ§o</span>
+              <span className="text-xs">Agendar Serviço</span>
             </Button>
             <Button
               variant="outline"
@@ -335,7 +335,7 @@ export function DashboardSection({
               onClick={() => onNavigate("dogs")}
             >
               <Dog className="size-5 text-primary" />
-              <span className="text-xs">Ver Todos os CÃ£es</span>
+              <span className="text-xs">Ver Todos os Cães</span>
             </Button>
             <Button
               variant="outline"
@@ -355,7 +355,7 @@ export function DashboardSection({
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-base font-semibold">
-              CÃ£es hospedados
+              Cães hospedados
             </CardTitle>
             <Button
               variant="link"
@@ -369,18 +369,18 @@ export function DashboardSection({
           </CardHeader>
           <CardContent className="flex flex-col gap-2 overflow-x-auto p-0 px-4 pb-4 sm:px-6">
             <div className="grid min-w-[420px] grid-cols-4 gap-2 border-b pb-2 text-xs font-medium text-muted-foreground">
-              <span>CÃ£o</span>
+              <span>Cão</span>
               <span>Tutor</span>
-              <span>RaÃ§a</span>
+              <span>Raça</span>
               <span>Status</span>
             </div>
             {hostedDogs.length === 0 ? (
               <div className="flex flex-col items-center justify-center gap-3 py-8 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Nenhum cÃ£o com hospedagem cadastrado.
+                  Nenhum cão com hospedagem cadastrado.
                 </p>
                 <Button size="sm" variant="outline" onClick={() => onNavigate("dogs")}>
-                  Cadastrar cÃ£o
+                  Cadastrar cão
                 </Button>
               </div>
             ) : (
@@ -419,7 +419,7 @@ export function DashboardSection({
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-base font-semibold">
-              PresenÃ§a - Entradas e SaÃ­das
+              Presença - Entradas e Saídas
             </CardTitle>
             <Button
               variant="link"
@@ -433,9 +433,9 @@ export function DashboardSection({
           </CardHeader>
           <CardContent className="flex flex-col gap-2 overflow-x-auto p-0 px-4 pb-4 sm:px-6">
             <div className="grid min-w-[420px] grid-cols-4 gap-2 border-b pb-2 text-xs font-medium text-muted-foreground">
-              <span>CÃ£o</span>
+              <span>Cão</span>
               <span>Evento</span>
-              <span>HorÃ¡rio</span>
+              <span>Horário</span>
               <span>Status</span>
             </div>
             {todayPresenceEvents.length === 0 ? (
@@ -507,7 +507,7 @@ export function DashboardSection({
                 <p className="text-xs text-muted-foreground">pagamentos recebidos</p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">PendÃªncias</p>
+                <p className="text-sm text-muted-foreground">Pendências</p>
                 <p className="text-lg font-bold">
                   R$ {pendingPayments.reduce((a, p) => a + p.value, 0).toLocaleString("pt-BR")}
                 </p>

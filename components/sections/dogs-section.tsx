@@ -382,13 +382,22 @@ export function DogsSection({ dogs, setDogs }: DogsSectionProps) {
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Plano contratado</label>
-              <Input
+              <Select
                 value={formData.plan}
-                onChange={(e) =>
-                  setFormData({ ...formData, plan: e.target.value })
+                onValueChange={(value) =>
+                  setFormData({ ...formData, plan: value })
                 }
-                placeholder="Ex: Mensal Premium"
-              />
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione um plano" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Diário">Diário</SelectItem>
+                  <SelectItem value="Semanal">Semanal</SelectItem>
+                  <SelectItem value="Mensal">Mensal</SelectItem>
+                  <SelectItem value="Anual">Anual</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Valor mensal</label>

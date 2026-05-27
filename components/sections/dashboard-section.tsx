@@ -96,7 +96,7 @@ export function DashboardSection({
     .sort((a, b) => a.time.localeCompare(b.time))
     .slice(0, 4);
 
-  const hostedDogs = getHostedDogRows(dogs, presences, today);
+  const hostedDogs = getHostedDogRows(dogs, presences, today, dogs.length);
   const todayPresenceEvents = getPresenceEventRows(dogs, presences, today);
 
   return (
@@ -116,7 +116,7 @@ export function DashboardSection({
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <Card className="border-l-4 border-l-primary">
+        <Card className="border-l-4 border-l-primary cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("dogs")}>
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="flex size-12 items-center justify-center rounded-lg bg-primary/10">
@@ -135,7 +135,7 @@ export function DashboardSection({
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-blue-500">
+        <Card className="border-l-4 border-l-blue-500 cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("presence")}>
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="flex size-12 items-center justify-center rounded-lg bg-blue-500/10">
@@ -152,7 +152,7 @@ export function DashboardSection({
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-amber-500">
+        <Card className="border-l-4 border-l-amber-500 cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("grooming")}>
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="flex size-12 items-center justify-center rounded-lg bg-amber-500/10">
@@ -171,7 +171,7 @@ export function DashboardSection({
           </CardContent>
         </Card>
 
-        <Card className="border-l-4 border-l-green-600">
+        <Card className="border-l-4 border-l-green-600 cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("financial")}>
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="flex size-12 items-center justify-center rounded-lg bg-green-600/10">

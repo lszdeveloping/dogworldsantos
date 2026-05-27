@@ -91,6 +91,16 @@ export function PresenceSection({
     );
   };
 
+  const handleRevertCheckout = (presenceId: string) => {
+    setPresences((prev) =>
+      prev.map((p) =>
+        p.id === presenceId
+          ? { ...p, status: "Presente" as PresenceStatus, checkOutTime: undefined }
+          : p
+      )
+    );
+  };
+
   const handleSaveObservation = () => {
     setPresences((prev) =>
       prev.map((p) =>
@@ -269,6 +279,17 @@ export function PresenceSection({
                           >
                             <LogOut className="size-3" />
                             Check-out
+                          </Button>
+                        )}
+                        {presence.status === "Saiu" && (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="gap-1 border-amber-300 text-amber-700 hover:bg-amber-50"
+                            onClick={() => handleRevertCheckout(presence.id)}
+                          >
+                            <LogIn className="size-3" />
+                            Reverter
                           </Button>
                         )}
                         <Button

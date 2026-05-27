@@ -125,7 +125,15 @@ function AppContent() {
           />
         );
       case "dogs":
-        return <DogsSection dogs={dogs} setDogs={setDogs} />;
+        return (
+          <DogsSection
+            dogs={dogs}
+            setDogs={setDogs}
+            presences={presences}
+            payments={payments}
+            groomingAppointments={groomingAppointments}
+          />
+        );
       case "presence":
         return (
           <PresenceSection

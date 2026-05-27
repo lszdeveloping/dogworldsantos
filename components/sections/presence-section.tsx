@@ -9,11 +9,12 @@ import {
   LogIn,
   LogOut,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +22,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { Dog, Presence, PresenceStatus } from "@/lib/types";
-import { format, addDays, subDays } from "date-fns";
+import { format, addDays, subDays, startOfMonth, endOfMonth } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
 interface PresenceSectionProps {
@@ -36,6 +37,8 @@ export function PresenceSection({
   setPresences,
 }: PresenceSectionProps) {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [view, setView] = useState<"list" | "calendar">("list");
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
   const [observationDialog, setObservationDialog] = useState<{
     open: boolean;
     presenceId: string;
@@ -120,6 +123,15 @@ export function PresenceSection({
   const isToday =
     format(selectedDate, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
 
+  const datesWithPresence = Array.from(
+    new Set(presences.filter((p) => p.checkInTime).map((p) => p.date))
+  ).map((d) => new Date(d + "T12:00:00"));
+
+  const getDayCount = (date: Date) => {
+    const dateStr = format(date, "yyyy-MM-dd");
+    return presences.filter((p) => p.date === dateStr && p.checkInTime).length;
+  };
+
   const getStatusColor = (status: PresenceStatus) => {
     switch (status) {
       case "Presente":
@@ -148,8 +160,83 @@ export function PresenceSection({
             </p>
           </div>
         </div>
+        <div className="flex gap-2">
+          <Button
+            variant={view === "list" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setView("list")}
+          >
+            Lista
+          </Button>
+          <Button
+            variant={view === "calendar" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setView("calendar")}
+          >
+            Calendário
+          </Button>
+        </div>
       </div>
 
+      {view === "calendar" && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-semibold">Agenda mensal</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col items-start gap-4 p-4 sm:flex-row">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              month={calendarMonth}
+              onMonthChange={setCalendarMonth}
+              locale={ptBR}
+              onSelect={(date) => {
+                if (date) {
+                  setSelectedDate(date);
+                  setView("list");
+                }
+              }}
+              modifiers={{ hasPresence: datesWithPresence }}
+              modifiersClassNames={{ hasPresence: "after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:size-1 after:rounded-full after:bg-primary after:content-[''] relative" }}
+              className="rounded-md border"
+            />
+            <div className="flex flex-col gap-2 w-full">
+              <p className="text-sm font-medium text-muted-foreground">
+                {format(calendarMonth, "MMMM yyyy", { locale: ptBR })}
+              </p>
+              <div className="grid grid-cols-1 gap-1 max-h-72 overflow-y-auto">
+                {Array.from(
+                  new Set(
+                    presences
+                      .filter((p) => p.checkInTime && p.date.startsWith(format(calendarMonth, "yyyy-MM")))
+                      .map((p) => p.date)
+                  )
+                )
+                  .sort((a, b) => a.localeCompare(b))
+                  .map((date) => {
+                    const count = presences.filter((p) => p.date === date && p.checkInTime).length;
+                    return (
+                      <button
+                        key={date}
+                        onClick={() => { setSelectedDate(new Date(date + "T12:00:00")); setView("list"); }}
+                        className="flex items-center justify-between rounded-md px-3 py-2 text-sm hover:bg-muted text-left"
+                      >
+                        <span>{format(new Date(date + "T12:00:00"), "dd/MM/yyyy - EEEE", { locale: ptBR })}</span>
+                        <Badge variant="outline">{count} cão{count !== 1 ? "es" : ""}</Badge>
+                      </button>
+                    );
+                  })}
+                {presences.filter((p) => p.checkInTime && p.date.startsWith(format(calendarMonth, "yyyy-MM"))).length === 0 && (
+                  <p className="py-4 text-center text-sm text-muted-foreground">Nenhuma presença neste mês.</p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {view === "list" && (
+      <>
       {/* Date Navigation */}
       <Card>
         <CardContent className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -412,6 +499,9 @@ export function PresenceSection({
           </CardContent>
         </Card>
       </div>
+
+      </>
+      )}
 
       {/* Observation Dialog */}
       <Dialog

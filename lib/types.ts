@@ -15,10 +15,13 @@ export interface Dog {
   birthDate: string;
   tutorName: string;
   tutorPhone: string;
+  emergencyContactName?: string;
+  emergencyContactPhone?: string;
   service: ServiceType;
   plan: string;
   monthlyValue: number;
   observations: string;
+  medicalNotes?: string;
   vaccinesUpToDate: boolean;
   vaccineExpiryDate: string;
   photoUrl?: string;

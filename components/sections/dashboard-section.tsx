@@ -61,6 +61,11 @@ export function DashboardSection({
   const dogsHosted = dogs.filter(
     (d) => d.service === "Hospedagem" || d.service === "Ambos"
   ).length;
+  const crecheTotal = dogs.filter((d) => d.service === "Creche").length;
+  const crecheDogsSet = new Set(dogs.filter((d) => d.service === "Creche").map((d) => d.id));
+  const crecheCheckIns = presences.filter(
+    (p) => p.date === today && p.checkInTime && crecheDogsSet.has(p.dogId)
+  ).length;
   const todayCheckIns = presences.filter(
     (p) => p.date === today && p.checkInTime
   ).length;
@@ -115,7 +120,24 @@ export function DashboardSection({
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        <Card className="border-l-4 border-l-violet-500 cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("dogs")}>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="flex size-12 items-center justify-center rounded-lg bg-violet-500/10">
+                <Dog className="size-6 text-violet-500" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Cães cadastrados</p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-bold">{dogs.length}</span>
+                </div>
+                <p className="text-xs text-muted-foreground">total no sistema</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         <Card className="border-l-4 border-l-primary cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("dogs")}>
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
@@ -130,6 +152,24 @@ export function DashboardSection({
                   <span className="text-2xl font-bold">{dogsHosted}</span>
                 </div>
                 <p className="text-xs text-muted-foreground">ocupação atual</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-l-4 border-l-cyan-500 cursor-pointer transition-shadow hover:shadow-md" onClick={() => onNavigate("presence")}>
+          <CardContent className="p-4">
+            <div className="flex items-center gap-4">
+              <div className="flex size-12 items-center justify-center rounded-lg bg-cyan-500/10">
+                <Dog className="size-6 text-cyan-500" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">Na creche hoje</p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-2xl font-bold">{crecheCheckIns}</span>
+                  <span className="text-sm text-muted-foreground">/ {crecheTotal}</span>
+                </div>
+                <p className="text-xs text-muted-foreground">presentes agora</p>
               </div>
             </div>
           </CardContent>

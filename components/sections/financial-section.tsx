@@ -47,6 +47,7 @@ export function FinancialSection({
   setPayments,
 }: FinancialSectionProps) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState(() => new Date().toISOString().slice(0, 7));
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingPayment, setEditingPayment] = useState<Payment | null>(null);
   const [formData, setFormData] = useState({
@@ -58,21 +59,23 @@ export function FinancialSection({
     paymentMethod: "",
   });
 
-  // Calculate stats
-  const totalToReceive = payments
+  const monthPayments = payments.filter((p) => p.dueDate.startsWith(selectedMonth));
+
+  // Calculate stats for selected month
+  const totalToReceive = monthPayments
     .filter((p) => p.status === "Pendente" || p.status === "Em atraso")
     .reduce((acc, p) => acc + p.value, 0);
-  const totalPaid = payments
+  const totalPaid = monthPayments
     .filter((p) => p.status === "Pago")
     .reduce((acc, p) => acc + p.value, 0);
-  const totalPending = payments
+  const totalPending = monthPayments
     .filter((p) => p.status === "Pendente")
     .reduce((acc, p) => acc + p.value, 0);
-  const totalOverdue = payments
+  const totalOverdue = monthPayments
     .filter((p) => p.status === "Em atraso")
     .reduce((acc, p) => acc + p.value, 0);
 
-  const filteredPayments = payments.filter(
+  const filteredPayments = monthPayments.filter(
     (payment) =>
       payment.tutorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.service.toLowerCase().includes(searchTerm.toLowerCase())
@@ -256,15 +259,26 @@ export function FinancialSection({
         </Card>
       </div>
 
-      {/* Search */}
-      <div className="relative w-full sm:w-80">
-        <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="Buscar por tutor ou serviço..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10"
-        />
+      {/* Search + Month filter */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative w-full sm:w-80">
+          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Buscar por tutor ou serviço..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10"
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <label className="text-sm font-medium text-muted-foreground whitespace-nowrap">Mês:</label>
+          <Input
+            type="month"
+            value={selectedMonth}
+            onChange={(e) => setSelectedMonth(e.target.value)}
+            className="w-44"
+          />
+        </div>
       </div>
 
       {/* Payments Table */}
